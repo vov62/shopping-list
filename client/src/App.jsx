@@ -1,10 +1,17 @@
 import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ShoppingList from "./pages/shoppingList/ShoppingList";
+import Checkout from "./pages/checkout/Checkout";
 
 function App() {
   return (
-    <div>
-      <p>hello world</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path={"/"} element={<ShoppingList />} />
+        <Route path={"/checkout"} element={<Checkout />} />
+        {/* <Route path="*" element={<NotFound />} /> */}
+      </Routes>
+    </Router>
   );
 }
 
