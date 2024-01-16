@@ -34,6 +34,24 @@ app.get("/products", (req, res) => {
   });
 });
 
+app.get("/create", (req, res) => {
+  const name = req.body.name;
+  const address = req.body.address;
+  const email = req.body.email;
+
+  const q = "INSERT INTO users (name, address, email) VALUES (?,?,?)";
+
+  db.query(q, [name, address, email], (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    return res.send("you have have registered successfully ");
+
+    // return res.json(data);
+  });
+});
+
 const port = 3000;
 
 app.listen(port, () => {
