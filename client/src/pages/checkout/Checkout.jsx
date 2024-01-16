@@ -2,7 +2,6 @@ import {
   Container,
   Box,
   Typography,
-  Button,
   Card,
   CardContent,
   TextField,
@@ -10,15 +9,15 @@ import {
   List,
 } from "@mui/material";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import axios from "axios";
+import { CLEAR_CATEGORIES } from "../../redux/features/fetchDataSlice";
+import "./checkout.scss";
 
 const Checkout = () => {
-  const {
-    data: categories,
-    isLoading,
-    categoriesData,
-  } = useSelector((state) => state.data);
+  const dispatch = useDispatch();
+  const { categoriesData } = useSelector((state) => state.data);
 
   // console.log(categoriesData);
 
@@ -33,12 +32,65 @@ const Checkout = () => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userData);
+
+    if (
+      !userData.name ||
+      !userData.address ||
+      !userData.email ||
+      Object.keys(categoriesData).length === 0
+    ) {
+      toast.error("אנא מלאו את כל השדות", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
+    const options = {
+      name: userData.name,
+      address: userData.address,
+      email: userData.email,
+      categoriesData: JSON.stringify(categoriesData),
+    };
 
     // post
-    // axios.post
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/submitOrder",
+        options
+      );
+      // console.log(res.data);
+
+      if (res.status === 200) {
+        setUserData({
+          name: "",
+          address: "",
+          email: "",
+        });
+        dispatch(CLEAR_CATEGORIES());
+        toast.success("הזמנתכם התקבלה!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("שגיאה!");
+    }
   };
 
   return (
@@ -73,7 +125,6 @@ const Checkout = () => {
         >
           <Box
             sx={{
-              // border: "1px solid red",
               backgroundColor: "#fff",
             }}
           >
@@ -83,7 +134,6 @@ const Checkout = () => {
 
             <Box
               sx={{
-                // border: "1px solid red",
                 width: "400px",
               }}
             >
@@ -99,10 +149,12 @@ const Checkout = () => {
                       required
                       onChange={handleInput}
                       value={userData.name}
+                      type="text"
                     />
                     <TextField
+                      type="text"
                       name="address"
-                      label="כתובת מלאה"
+                      label="כתובת "
                       variant="outlined"
                       fullWidth
                       margin="normal"
@@ -111,6 +163,7 @@ const Checkout = () => {
                       value={userData.address}
                     />
                     <TextField
+                      type="email"
                       name="email"
                       label="אימייל"
                       variant="outlined"
@@ -138,7 +191,7 @@ const Checkout = () => {
               עגלת הקניות
             </Typography>
 
-            {categoriesData.length > 0 ? (
+            {Object.keys(categoriesData).length > 0 ? (
               Object.entries(categoriesData).map(
                 ([categoryName, categoryItems]) => (
                   <Box key={categoryName}>
@@ -179,9 +232,9 @@ const Checkout = () => {
         </Box>
 
         <Box sx={{ mt: 2 }}>
-          <Button variant="contained" type="submit" onClick={handleSubmit}>
+          <button className="order-Btn" type="submit" onClick={handleSubmit}>
             אשר הזמנה
-          </Button>
+          </button>
         </Box>
       </Box>
     </Container>

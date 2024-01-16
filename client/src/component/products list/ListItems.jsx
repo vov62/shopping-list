@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Box, Typography } from "@mui/material";
 
-const List = ({ categoriesData, category }) => {
+const ListItems = ({ categoriesData, category }) => {
   const categoryItems = categoriesData[category.name] || [];
 
   //   console.log(categoriesData);
@@ -20,4 +20,4 @@ const List = ({ categoriesData, category }) => {
   );
 };
 
-export default List;
+export default ListItems;

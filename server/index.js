@@ -2,10 +2,11 @@ import express from "express";
 const app = express();
 import cors from "cors";
 import mysql from "mysql";
+import bodyParser from "body-parser";
 
-// app.use()
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.json("hello from backend");
@@ -34,21 +35,19 @@ app.get("/products", (req, res) => {
   });
 });
 
-app.get("/create", (req, res) => {
-  const name = req.body.name;
-  const address = req.body.address;
-  const email = req.body.email;
+app.post("/submitOrder", (req, res) => {
+  const { name, address, email, categoriesData } = req.body;
 
-  const q = "INSERT INTO users (name, address, email) VALUES (?,?,?)";
+  const q =
+    "INSERT INTO shoppinglist.users (name, address, email,categoriesData) VALUES (?,?,?,?)";
 
-  db.query(q, [name, address, email], (err, data) => {
+  db.query(q, [name, address, email, categoriesData], (err, data) => {
     if (err) {
       console.log(err);
       return res.json(err);
     }
-    return res.send("you have have registered successfully ");
-
-    // return res.json(data);
+    console.log("Order inserted into MySQL:", data);
+    res.status(200).send("Order submitted successfully");
   });
 });
 

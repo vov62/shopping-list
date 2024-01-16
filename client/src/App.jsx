@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ShoppingList from "./pages/shoppingList/ShoppingList";
 import Checkout from "./pages/checkout/Checkout";

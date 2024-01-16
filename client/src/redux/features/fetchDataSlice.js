@@ -53,6 +53,12 @@ const dataSlice = createSlice({
 
       return { ...state, categoriesData: updatedCategoriesData };
     },
+    CLEAR_CATEGORIES: (state) => {
+      return {
+        ...state,
+        categoriesData: {},
+      };
+    },
   },
 });
 
@@ -61,6 +67,7 @@ export const {
   DATA_FETCH_FAILED,
   DATA_FETCH_SUCCEED,
   ADD_ITEM_TO_CATEGORY,
+  CLEAR_CATEGORIES,
 } = dataSlice.actions;
 
 export const { actions, reducer } = dataSlice;

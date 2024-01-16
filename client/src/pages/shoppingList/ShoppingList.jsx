@@ -1,29 +1,20 @@
-import {
-  Container,
-  Box,
-  Typography,
-  Button,
-  TextField,
-  FormControl,
-  Select,
-  MenuItem,
-  InputLabel,
-} from "@mui/material";
+import { Container, Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import List from "./List";
+import ListItems from "../../component/products list/ListItems";
 import { useSelector, useDispatch } from "react-redux";
 import {
   DATA_FETCH_REQUESTED,
   ADD_ITEM_TO_CATEGORY,
 } from "../../redux/features/fetchDataSlice";
+import Spinner from "../../component/spinner/Spinner";
+import "./shoppingList.scss";
 
 const ShoppingList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  // const [categoriesData, setCategoriesData] = useState({});
 
   useEffect(() => {
     dispatch(DATA_FETCH_REQUESTED());
@@ -34,9 +25,8 @@ const ShoppingList = () => {
     isLoading,
     categoriesData,
   } = useSelector((state) => state.data);
-  // console.log(categories);
 
-  const clickHandle = () => {
+  const addProductHandle = () => {
     if (inputValue && selectedCategory) {
       dispatch(
         ADD_ITEM_TO_CATEGORY({
@@ -53,18 +43,13 @@ const ShoppingList = () => {
   const handleChange = (e) => {
     setSelectedCategory(e.target.value);
   };
+  const clickHandle = () => {
+    navigate("/checkout");
+  };
 
   return (
     <Container sx={{ mt: 5 }}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          gap: "25px",
-        }}
-      >
+      <Box className="wrapper">
         <Typography variant="h3">רשימת קניות</Typography>
         <Box
           sx={{
@@ -74,59 +59,51 @@ const ShoppingList = () => {
           }}
         >
           <Typography variant="h6">
-            סה"כ:
+            סה&quot;כ:
             {Object.values(categoriesData).reduce((total, categoryItems) => {
               return total + categoryItems.length;
             }, 0)}
             מוצרים
           </Typography>
         </Box>
-        <Box sx={{ mt: 4 }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "20px",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <TextField
-              label="מוצר"
-              variant="outlined"
+
+        <Box>
+          <Box className="form-category">
+            <input
+              type="text"
+              name="firstname"
+              placeholder="מוצר"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
 
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">קטגוריה</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedCategory}
-                label="קטגוריה"
-                onChange={handleChange}
-              >
-                <MenuItem value="">כל הקטגוריות</MenuItem>
-                {categories.length > 0 &&
-                  categories.map((category) => {
-                    return (
-                      <MenuItem
-                        key={category.category_id}
-                        value={category.name}
-                      >
-                        {category.name}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </FormControl>
-            <Button variant="outlined" onClick={clickHandle}>
+            <select
+              id="country"
+              name="country"
+              value={selectedCategory}
+              onChange={handleChange}
+            >
+              <option value="" defaultValue="קטגוריה" disabled hidden>
+                קטגוריה
+              </option>
+
+              {categories.length > 0 &&
+                categories.map((category) => {
+                  return (
+                    <option key={category.category_id} value={category.name}>
+                      {category.name}
+                    </option>
+                  );
+                })}
+            </select>
+
+            <button className="add-Btn" onClick={addProductHandle}>
               הוסף
-            </Button>
+            </button>
           </Box>
         </Box>
 
-        {/* list to products */}
+        {/* list of all categories */}
         <Box
           sx={{
             display: "flex",
@@ -134,14 +111,15 @@ const ShoppingList = () => {
             justifyContent: "center",
             flexWrap: "wrap",
             gap: "20px",
+            mt: 3,
           }}
         >
           {isLoading ? (
-            <div>loading...</div>
+            <Spinner />
           ) : (
             categories.length > 0 &&
             categories.map((category) => (
-              <List
+              <ListItems
                 key={category.category_id}
                 categoriesData={categoriesData}
                 category={category}
@@ -150,9 +128,9 @@ const ShoppingList = () => {
           )}
         </Box>
 
-        <Button onClick={() => navigate("/checkout")} variant="contained">
+        <button className="order-Btn" type="button" onClick={clickHandle}>
           סיים הזמנה
-        </Button>
+        </button>
       </Box>
     </Container>
   );

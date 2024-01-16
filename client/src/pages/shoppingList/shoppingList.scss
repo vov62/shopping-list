@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 25px;
+
+  .form-category {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 20px;
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      background-color: #fff !important;
+      border-radius: 4px;
+    }
+
+    input [type="select"] {
+      //   background-color: #fff !important;
+    }
+  }
+
+  .add-Btn {
+    padding: 8px 20px;
+    border: 2px solid teal;
+    background-color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #f8f4f4;
+    }
+  }
+}
