@@ -1,0 +1,1 @@
+const workoutsRouter = require('express').Router();

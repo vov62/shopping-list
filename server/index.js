@@ -8,10 +8,11 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.json("hello from backend");
-});
+// app.get("/", (req, res) => {
+//   res.json("hello from backend");
+// });
 
+// mysql db
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -24,6 +25,7 @@ db.connect((error) => {
   console.log("DB connected");
 });
 
+//routes
 app.get("/products", (req, res) => {
   const q = "SELECT * FROM shoppinglist.category";
   db.query(q, (err, data) => {
