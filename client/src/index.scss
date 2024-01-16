@@ -1,14 +1,32 @@
-.order-Btn {
-    padding: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    background-color: teal;
-    border: none;
-    color: #fff;
-    font-size: 15px;
-    border-radius: 5px;
+#root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    &:hover {
-        color: #000;
-    }
+body,
+html {
+  background-color: #f3f6f999;
+}
+
+li {
+  list-style: circle;
+}
+a {
+  text-decoration: none;
+}
+
+.order-Btn {
+  padding: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: teal;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  border-radius: 5px;
+
+  &:hover {
+    color: #000;
+  }
 }

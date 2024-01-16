@@ -1,0 +1,27 @@
+.list-items {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+
+  .list-items-ul {
+    margin-top: 0;
+    min-height: 100px;
+    text-align: right;
+    padding: 2px 10px;
+
+    li {
+      margin-top: 5px;
+      font-size: 18px;
+      font-weight: 400;
+      color: coral;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .list-items {
+    width: 100%;
+    text-align: center;
+  }
+}

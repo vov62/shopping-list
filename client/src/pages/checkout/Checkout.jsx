@@ -4,7 +4,6 @@ import {
   Typography,
   Card,
   CardContent,
-  TextField,
   Divider,
   List,
 } from "@mui/material";
@@ -18,8 +17,6 @@ import "./checkout.scss";
 const Checkout = () => {
   const dispatch = useDispatch();
   const { categoriesData } = useSelector((state) => state.data);
-
-  // console.log(categoriesData);
 
   const [userData, setUserData] = useState({
     name: "",
@@ -95,15 +92,7 @@ const Checkout = () => {
 
   return (
     <Container>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "5px",
-        }}
-      >
+      <Box className="checkout-wrapper">
         <Box
           sx={{
             textAlign: "center",
@@ -113,122 +102,84 @@ const Checkout = () => {
           <Typography variant="h4"> סיכום הזמנה</Typography>
         </Box>
 
-        <Box
-          sx={{
-            mt: 4,
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            paddingInline: "20px",
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: "#fff",
-            }}
-          >
-            <Typography variant="h5" sx={{ textAlign: "center", mt: 1 }}>
-              פרטים אישיים
-            </Typography>
-
-            <Box
-              sx={{
-                width: "400px",
-              }}
-            >
-              <Card sx={{ mt: 2 }}>
-                <CardContent>
-                  <form>
-                    <TextField
-                      name="name"
-                      label="שם מלא"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      required
-                      onChange={handleInput}
-                      value={userData.name}
-                      type="text"
-                    />
-                    <TextField
-                      type="text"
-                      name="address"
-                      label="כתובת "
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      required
-                      onChange={handleInput}
-                      value={userData.address}
-                    />
-                    <TextField
-                      type="email"
-                      name="email"
-                      label="אימייל"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      required
-                      onChange={handleInput}
-                      value={userData.email}
-                    />
-                  </form>
-                </CardContent>
-              </Card>
-            </Box>
+        <Box className="details-wrapper">
+          <Box className="personal-details ">
+            <Card sx={{ py: 2 }}>
+              <Typography variant="h5" sx={{ textAlign: "center", mt: 1 }}>
+                פרטים אישיים
+              </Typography>
+              <CardContent>
+                <form>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="שם מלא"
+                    onChange={handleInput}
+                    value={userData.name}
+                  />
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="כתובת"
+                    onChange={handleInput}
+                    value={userData.address}
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="אימייל"
+                    onChange={handleInput}
+                    value={userData.email}
+                  />
+                </form>
+              </CardContent>
+            </Card>
           </Box>
 
-          <List
-            sx={{
-              width: "400px",
-              backgroundColor: "#fff",
-              borderRadius: "10px",
-              padding: "10px 20px",
-            }}
-          >
-            <Typography variant="h5" sx={{ textAlign: "center" }}>
-              עגלת הקניות
-            </Typography>
+          <Box className="order-details">
+            <Card>
+              <CardContent>
+                <List>
+                  <Typography variant="h5" sx={{ textAlign: "center" }}>
+                    עגלת הקניות
+                  </Typography>
 
-            {Object.keys(categoriesData).length > 0 ? (
-              Object.entries(categoriesData).map(
-                ([categoryName, categoryItems]) => (
-                  <Box key={categoryName}>
-                    <Typography variant="h6" sx={{ mt: 1 }}>
-                      {categoryName}
-                    </Typography>
-                    {categoryItems.map((item) => (
-                      <Box
-                        key={item.name}
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          mt: 0.5,
-                        }}
-                      >
-                        <Typography variant="subtitle2">{item.name}</Typography>
-                        <Typography variant="body1">
-                          {item.amount || 1}
-                        </Typography>
-                      </Box>
-                    ))}
-                    <Divider variant="inset" component="li" />
-                  </Box>
-                )
-              )
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography variant="h6">אין פריטים כרגע</Typography>
-              </Box>
-            )}
-          </List>
+                  {Object.keys(categoriesData).length > 0 ? (
+                    Object.entries(categoriesData).map(
+                      ([categoryName, categoryItems]) => (
+                        <Box key={categoryName}>
+                          <Typography variant="h6" sx={{ mt: 1 }}>
+                            {categoryName}
+                          </Typography>
+                          {categoryItems.map((item) => (
+                            <Box key={item.name} className="list-item">
+                              <Typography variant="subtitle2">
+                                {item.name}
+                              </Typography>
+                              <Typography variant="body1">
+                                {item.amount || 1}
+                              </Typography>
+                            </Box>
+                          ))}
+                          <Divider variant="inset" />
+                        </Box>
+                      )
+                    )
+                  ) : (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography variant="h6">אין פריטים כרגע</Typography>
+                    </Box>
+                  )}
+                </List>
+              </CardContent>
+            </Card>
+          </Box>
         </Box>
 
         <Box sx={{ mt: 2 }}>

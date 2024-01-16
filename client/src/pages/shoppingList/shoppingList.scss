@@ -5,6 +5,15 @@
   justify-content: center;
   gap: 25px;
 
+  .total-items {
+    text-align: left;
+    width: 100%;
+
+    span {
+      margin-inline: 5px;
+    }
+  }
+
   .form-category {
     display: flex;
     align-items: center;
@@ -23,13 +32,14 @@
     }
 
     input [type="select"] {
-      //   background-color: #fff !important;
+      padding: 10px;
     }
   }
 
   .add-Btn {
     padding: 8px 20px;
     border: 2px solid teal;
+    border-radius: 5px;
     background-color: #fff;
     cursor: pointer;
     font-weight: 500;
@@ -37,5 +47,21 @@
     &:hover {
       background-color: #f8f4f4;
     }
+  }
+
+  .products-list-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 15px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .products-list-container {
+    flex-direction: column;
+    width: 100%;
   }
 }

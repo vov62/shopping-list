@@ -52,17 +52,22 @@ const ShoppingList = () => {
       <Box className="wrapper">
         <Typography variant="h3">רשימת קניות</Typography>
         <Box
-          sx={{
-            width: "100%",
-            px: 3,
-            textAlign: "left",
-          }}
+          sx={
+            {
+              // width: "100%",
+            }
+          }
+          className="total-items"
         >
           <Typography variant="h6">
             סה&quot;כ:
-            {Object.values(categoriesData).reduce((total, categoryItems) => {
-              return total + categoryItems.length;
-            }, 0)}
+            <span>
+              (
+              {Object.values(categoriesData).reduce((total, categoryItems) => {
+                return total + categoryItems.length;
+              }, 0)}
+              )
+            </span>
             מוצרים
           </Typography>
         </Box>
@@ -104,16 +109,7 @@ const ShoppingList = () => {
         </Box>
 
         {/* list of all categories */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "20px",
-            mt: 3,
-          }}
-        >
+        <Box className="products-list-container">
           {isLoading ? (
             <Spinner />
           ) : (

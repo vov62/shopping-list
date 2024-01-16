@@ -1,7 +1,7 @@
-import "./App.scss";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ShoppingList from "./pages/shoppingList/ShoppingList";
 import Checkout from "./pages/checkout/Checkout";
+import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <Routes>
         <Route path={"/"} element={<ShoppingList />} />
         <Route path={"/checkout"} element={<Checkout />} />
-        {/* <Route path="*" element={<NotFound />} /> */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
