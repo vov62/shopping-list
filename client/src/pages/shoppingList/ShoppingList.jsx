@@ -10,54 +10,40 @@ import {
   InputLabel,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import List from "./List";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  DATA_FETCH_REQUESTED,
+  ADD_ITEM_TO_CATEGORY,
+} from "../../redux/features/fetchDataSlice";
 
 const ShoppingList = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [categoriesData, setCategoriesData] = useState({});
-  const [categories, setCategories] = useState([]);
+  // const [categoriesData, setCategoriesData] = useState({});
 
-  const fetchData = async () => {
-    try {
-      const res = await axios("http://localhost:3000/products");
-      setCategories(res.data);
-      // console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
-    fetchData();
-  }, []);
+    dispatch(DATA_FETCH_REQUESTED());
+  }, [dispatch]);
+
+  const {
+    data: categories,
+    isLoading,
+    categoriesData,
+  } = useSelector((state) => state.data);
+  // console.log(categories);
 
   const clickHandle = () => {
     if (inputValue && selectedCategory) {
-      setCategoriesData((prevData) => {
-        const updatedCategories = { ...prevData };
-
-        // Check if selectedCategory already exists in the categoriesData
-        if (!updatedCategories[selectedCategory]) {
-          updatedCategories[selectedCategory] = [];
-        }
-
-        const categoryItems = updatedCategories[selectedCategory];
-        const existingItemIndex = categoryItems.findIndex(
-          (item) => item.name === inputValue
-        );
-
-        if (existingItemIndex !== -1) {
-          // Item already exists, update the amount
-          categoryItems[existingItemIndex].amount =
-            (categoryItems[existingItemIndex].amount || 1) + 1;
-        } else {
-          // Item doesn't exist, add a new item
-          categoryItems.push({ name: inputValue, amount: 1 });
-        }
-
-        return updatedCategories;
-      });
+      dispatch(
+        ADD_ITEM_TO_CATEGORY({
+          category: selectedCategory,
+          item: { name: inputValue },
+        })
+      );
 
       setInputValue("");
       setSelectedCategory("");
@@ -76,7 +62,7 @@ const ShoppingList = () => {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
-          gap: "20px",
+          gap: "25px",
         }}
       >
         <Typography variant="h3">רשימת קניות</Typography>
@@ -89,9 +75,9 @@ const ShoppingList = () => {
         >
           <Typography variant="h6">
             סה"כ:
-            {selectedCategory && categoriesData[selectedCategory]
-              ? categoriesData[selectedCategory].length
-              : 0}
+            {Object.values(categoriesData).reduce((total, categoryItems) => {
+              return total + categoryItems.length;
+            }, 0)}
             מוצרים
           </Typography>
         </Box>
@@ -100,7 +86,7 @@ const ShoppingList = () => {
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: "10px",
+              gap: "20px",
               justifyContent: "space-evenly",
             }}
           >
@@ -150,21 +136,23 @@ const ShoppingList = () => {
             gap: "20px",
           }}
         >
-          {categories.length > 0 &&
-            categories.map((category) => {
-              return (
-                <>
-                  <List
-                    key={category.category_id}
-                    categoriesData={categoriesData}
-                    category={category}
-                  />
-                </>
-              );
-            })}
+          {isLoading ? (
+            <div>loading...</div>
+          ) : (
+            categories.length > 0 &&
+            categories.map((category) => (
+              <List
+                key={category.category_id}
+                categoriesData={categoriesData}
+                category={category}
+              />
+            ))
+          )}
         </Box>
 
-        <Button variant="contained">סיים הזמנה</Button>
+        <Button onClick={() => navigate("/checkout")} variant="contained">
+          סיים הזמנה
+        </Button>
       </Box>
     </Container>
   );
