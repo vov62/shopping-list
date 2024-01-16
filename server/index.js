@@ -46,7 +46,6 @@ app.post("/submitOrder", (req, res) => {
       console.log(err);
       return res.json(err);
     }
-    console.log("Order inserted into MySQL:", data);
     res.status(200).send("Order submitted successfully");
   });
 });
