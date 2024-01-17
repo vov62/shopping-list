@@ -13,7 +13,7 @@ Clone my repo <strong> 'git clone https://github.com/vov62/shopping-list.git',</
 on the terminal, cd client, run 'npm install' to install dependencies,</br> 
 run 'npm run dev' to run client-side  :grinning:
 </br>
-to run server, cd server, run 'npm install' to install dependencies,</br> 
+to run server, open new terminal, cd server, run 'npm install' to install dependencies,</br> 
 run 'npm start'  :grinning:
 </br>
 </br>
