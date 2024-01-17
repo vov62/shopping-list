@@ -10,8 +10,8 @@
 </br>
 <h2>How To Run </h2>
 Clone my repo <strong> 'git clone https://github.com/vov62/shopping-list.git',</strong></br>
-run 'npm install' to install dependencies,</br> 
-run 'npm run dev' to run the project  :grinning:
+on the terminal, cd client, run 'npm install' to install dependencies,</br> 
+run 'npm run dev' to run the client side  :grinning:
 </br>
 </br>
 <img width="500" alt="1" src="https://github.com/vov62/shopping-list/assets/71568364/fb58e79c-d28d-45e6-9e2f-69b1e37b198c">
